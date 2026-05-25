@@ -3,7 +3,7 @@ um organizador de livros feito com prisma e typescript
 
 João cagão
 modelo conceitual
-< <img width="100" height="500" alt="img" src="https://github.com/user-attachments/assets/ccc2b3cb-cdc4-40b8-bee9-eef7fa9228ab" />
+< <img width="1000" height="500" alt="img" src="https://github.com/user-attachments/assets/ccc2b3cb-cdc4-40b8-bee9-eef7fa9228ab" />
 " />
 
 modelo relacional 1-->n
