@@ -27,7 +27,7 @@ model Livro {
   titulo String
   autor String
   genero String
-  anoPublicaco Int
+  anoPublicacao Int
   sinopse String
   usuarioId Int
 
