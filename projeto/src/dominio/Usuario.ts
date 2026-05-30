@@ -51,4 +51,14 @@ export abstract class Usuario {
   abstract getNivelAcasso(): string;
 }
 
+export class UsuarioComum extends Usuario{
+    getNivelAcasso(): string {
+        return "COMUM";
+    }
+}
 
+export class UsuarioAdm extends Usuario {
+    getNivelAcasso(): string {
+        return "ADM"
+    }
+}
