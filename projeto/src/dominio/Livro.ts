@@ -5,7 +5,6 @@ export class Livro {
   #genero!: string;
   #anoPublicacao!: number;
   #sinopse!: string;
-  #usuarioId!: number;
 
   constructor(
     titulo: string,
@@ -61,7 +60,7 @@ export class Livro {
       "sci-fi",
     ];
     if (!generosValidos.includes(genero)) {
-      throw new Error("G");
+      throw new Error("Gênero inválido");
     }
 
     this.#genero = genero;
@@ -86,7 +85,7 @@ export class Livro {
   setSinopse(texto: string) {
     if (!texto || texto.trim().length < 10) {
       throw new Error(
-        "A sniopse precisa de uma descrição de mais de 10 caracteres",
+        "A siniopse precisa de uma descrição de mais de 10 caracteres",
       );
     }
     this.#sinopse = texto;
