@@ -62,6 +62,8 @@ export class Livro {
     if (!generosValidos.includes(genero)) {
       throw new Error("G");
     }
+
+    return this.#genero;
   }
 
   get anoPublicacao() {
