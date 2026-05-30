@@ -1,9 +1,9 @@
 export abstract class Usuario {
   #id?: number;
-  #nome: string;
+  #nome!: string;
   #email!: string;
-  #senha: string;
-  #dataNascimento: Date;
+  #senha!: string;
+  #dataNascimento!: Date;
 
   constructor(
     nome: string,
@@ -12,10 +12,10 @@ export abstract class Usuario {
     dataNascimento: Date,
     id?: number,
   ) {
-    this.#nome = nome;
+    this.setNome(nome);
     this.setEmail(email);
-    this.#senha = senha;
-    this.#dataNascimento = dataNascimento;
+    this.setSenha(senha);
+    this.setDataNascimento(dataNascimento);
     this.#id = id;
   }
 
@@ -35,30 +35,57 @@ export abstract class Usuario {
     return this.#dataNascimento;
   }
 
-  setEmail(email: string) {
-    const testeEmail = email.trim();
-
-    const temA = testeEmail.includes("@");
-    const temPonto = testeEmail.includes(".");
-    const semEspaco = testeEmail.includes(" ");
-
-    if (!temA || !temPonto || !semEspaco) {
-      throw new Error("Email inválido");
+  setNome(nome: string) {
+    if (!nome || nome.trim().length < 2) {
+      throw new Error("O nome deve ter pelo menos 2 caracteres");
     }
-    this.#email = email;
+    this.#nome = nome.trim();
   }
 
-  abstract getNivelAcasso(): string;
+  setEmail(email: string) {
+    const emailTrim = email.trim();
+    const temArroba = emailTrim.includes("@");
+    const temPonto = emailTrim.includes(".");
+    const temEspaco = emailTrim.includes(" ");
+
+    if (!temArroba || !temPonto || temEspaco) {
+      throw new Error("Email inválido");
+    }
+    this.#email = emailTrim;
+  }
+
+  setSenha(senha: string) {
+    if (!senha || senha.length < 6) {
+      throw new Error("A senha deve ter pelo menos 6 caracteres");
+    }
+    this.#senha = senha;
+  }
+
+  setDataNascimento(data: Date) {
+    const hoje = new Date();
+    const idadeMinima = 12;
+    let idade = hoje.getFullYear() - data.getFullYear();
+    const mes = hoje.getMonth() - data.getMonth();
+    if (mes < 0 || (mes === 0 && hoje.getDate() < data.getDate())) {
+      idade--;
+    }
+    if (isNaN(data.getTime()) || data > hoje || idade < idadeMinima) {
+      throw new Error(`Data de nascimento inválida (idade mínima: ${idadeMinima} anos)`);
+    }
+    this.#dataNascimento = data;
+  }
+
+  abstract getNivelAcesso(): string;
 }
 
-export class UsuarioComum extends Usuario{
-    getNivelAcasso(): string {
-        return "COMUM";
-    }
+export class UsuarioComum extends Usuario {
+  getNivelAcesso(): string {
+    return "COMUM";
+  }
 }
 
 export class UsuarioAdm extends Usuario {
-    getNivelAcasso(): string {
-        return "ADM"
-    }
+  getNivelAcesso(): string {
+    return "ADM";
+  }
 }
