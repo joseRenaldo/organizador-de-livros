@@ -5,6 +5,7 @@ export class Livro {
   #genero!: string;
   #anoPublicacao!: number;
   #sinopse!: string;
+  #usuarioId!: number;
 
   constructor(
     titulo: string,
@@ -63,7 +64,7 @@ export class Livro {
       throw new Error("G");
     }
 
-    return this.#genero;
+    this.#genero = genero;
   }
 
   get anoPublicacao() {
