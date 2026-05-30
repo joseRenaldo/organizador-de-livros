@@ -1,67 +1,91 @@
 export class Livro {
-  // Atributos privados obrigatórios 
   #id?: number;
   #titulo!: string;
   #autor!: string;
   #genero!: string;
   #anoPublicacao!: number;
-  #lido: boolean;
   #sinopse!: string;
 
-  constructor(titulo: string, autor: string, genero: string, anoPublicacao: number, lido: boolean, sinopse: string, id?: number) {
+  constructor(
+    titulo: string,
+    autor: string,
+    genero: string,
+    anoPublicacao: number,
+    sinopse: string,
+    id?: number,
+  ) {
     this.setTitulo(titulo);
     this.setAutor(autor);
     this.setGenero(genero);
     this.setAnoPublicacao(anoPublicacao);
-    this.#lido = lido;
     this.setSinopse(sinopse);
     this.#id = id;
   }
 
-  get id() { return this.#id; }
-
-  get titulo() { return this.#titulo; }
-  setTitulo(value: string) {
-    if (!value || value.trim().length < 2) {
-      throw new Error("O título do livro deve conter pelo menos 2 caracteres.");
-    }
-    this.#titulo = value;
+  get id() {
+    return this.#id;
   }
 
-  get autor() { return this.#autor; }
-  setAutor(value: string) {
-    if (!value || value.trim().length < 2) {
-      throw new Error("O nome do autor deve conter pelo menos 2 caracteres.");
+  get titulo() {
+    return this.#titulo;
+  }
+  setTitulo(nome: string) {
+    if (!nome || nome.trim().length < 2) {
+      throw new Error("O título do livro deve conter ao menos dois caracterws");
     }
-    this.#autor = value;
+    this.#titulo = nome;
   }
 
-  get genero() { return this.#genero; }
-  setGenero(value: string) {
-    const generosValidos = ["Ficção", "Romance", "Terror", "Biografia", "Fantasia", "História"];
-    if (!generosValidos.includes(value)) {
-      throw new Error("Gênero literário selecionado é inválido.");
+  get autor() {
+    return this.#autor;
+  }
+  setAutor(nome: string) {
+    if (!nome || nome.trim().length < 2) {
+      throw new Error("O nome deve ter ao menos dois caracteres");
     }
-    this.#genero = value;
+    this.#autor = nome;
   }
 
-  get anoPublicacao() { return this.#anoPublicacao; }
-  setAnoPublicacao(value: number) {
+  get genero() {
+    return this.#genero;
+  }
+  setGenero(genero: string) {
+    const generosValidos = [
+      "Ficção",
+      "Romance",
+      "Terror",
+      "Biografia",
+      "Fantasia",
+      "História",
+      "sci-fi",
+    ];
+    if (!generosValidos.includes(genero)) {
+      throw new Error("G");
+    }
+  }
+
+  get anoPublicacao() {
+    return this.#anoPublicacao;
+  }
+  setAnoPublicacao(ano: number) {
     const anoAtual = new Date().getFullYear();
-    if (isNaN(value) || value < 1000 || value > anoAtual) {
-      throw new Error(`O ano de publicação deve ser um número válido entre 1000 e ${anoAtual}.`);
+    if (isNaN(ano) || ano < 1000 || ano > anoAtual) {
+      throw new Error(
+        `O ano de publicação deve ser maior que 1000 e menor que ${anoAtual}`,
+      );
     }
-    this.#anoPublicacao = value;
+    this.#anoPublicacao = ano;
   }
 
-  get lido() { return this.#lido; }
-  set lido(value: boolean) { this.#lido = value; }
-
-  get sinopse() { return this.#sinopse; }
-  setSinopse(value: string) {
-    if (!value || value.trim().length < 10) {
-      throw new Error("A sinopse precisa de uma descrição detalhada (mínimo 10 caracteres).");
+  get sinopse() {
+    return this.#sinopse;
+  }
+  setSinopse(texto: string) {
+    if (!texto || texto.trim().length < 10) {
+      throw new Error(
+        "A sniopse precisa de uma descrição de mais de 10 caracteres",
+      );
     }
-    this.#sinopse = value;
+    this.#sinopse = texto;
   }
 }
