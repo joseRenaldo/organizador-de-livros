@@ -29,6 +29,6 @@ export class LivroDAO {
 
   async remover(id: number) {
     await prisma.livro.delete({ where: { id } });
-    return true
+    return true;
   }
 }
