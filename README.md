@@ -30,7 +30,7 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
 
 ## Estrutura da pasta projeto(A pasta correta com nosso trabalho, por favor ignorem o resto)
 ```
-_____________________________________________________________________________________
+_________________________________________________________________
 projeto/
 |--- src/
 | |--- config/
@@ -41,13 +41,13 @@ projeto/
 │ |--- persistencia/
 │ │      |--- LivroDAO.ts # Operações de persistência para Livro
 │ │      |--- UsuarioDAO.ts # Operações para Usuario
-│ |--- (controllers/routes/view) # Camada de apresentação (não incluso neste repositório por hora, ainda em progresso)
-| |--- prisma/
+│ |--- (controllers/routes/view) # Camada de apresentação # Camada de apresentação (ainda em progresso)
+│ |                                                         # (não incluso neste repositório)
 │ |       |--- schema.prisma # Modelos Usuario e Livro
 │ |       |--- migrations/
 | |--- package.json
 | |--- tsconfig.json
-|_____________________________________________________________________________________________________________________________
+|__________________________________________________________________________________________________________________
 ```
 
 
