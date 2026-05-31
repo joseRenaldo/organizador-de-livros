@@ -42,9 +42,9 @@ projeto/
 │ │      |--- LivroDAO.ts # Operações de persistência para Livro
 │ │      |--- UsuarioDAO.ts # Operações para Usuario
 │ |--- (controllers/routes/view) # Camada de apresentação # Camada de apresentação (ainda em progresso)
-│ |                                                         # (não incluso neste repositório)
-│ |       |--- schema.prisma # Modelos Usuario e Livro
-│ |       |--- migrations/
+│ |      |                                                   # (não incluso neste repositório)
+│ |      |--- schema.prisma # Modelos Usuario e Livro
+│ |      |--- migrations/
 | |--- package.json
 | |--- tsconfig.json
 |__________________________________________________________________________________________________________________
