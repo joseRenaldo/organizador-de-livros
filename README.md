@@ -28,9 +28,9 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
 - **SQLite**
 - **ES Modules** – organização modular do código
 
-## Estrutura do Projeto(A pasta correta com nosso trabalho)
-
-___________________________________________________________________________________________________________________
+## Estrutura da pasta projeto(A pasta correta com nosso trabalho, por favor ignorem o resto)
+```
+_____________________________________________________________________________________
 projeto/
 |--- src/
 | |--- config/
@@ -47,7 +47,8 @@ projeto/
 │ |       |--- migrations/
 | |--- package.json
 | |--- tsconfig.json
-|____________________________________________________________________________________________________________________________________________________
+|_____________________________________________________________________________________________________________________________
+```
 
 
 ## Integrantes do grupo
