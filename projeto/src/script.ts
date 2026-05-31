@@ -19,6 +19,9 @@ async function main() {
 
     secao("Criando usuários");
 
+    await prisma.livro.deleteMany();
+    await prisma.usuario.deleteMany();
+
    const adminSalvo = await usuarioDAO.criar(
   new UsuarioAdm(
     "Carlos Admin",
@@ -88,25 +91,35 @@ const comumId: number = comumSalvo.id;
 
     secao("Criando livros");
 
-    const livro1 = await livroDAO.criar({
-      titulo: "O Guia do Mochileiro das Galáxias",
-      autor: "Douglas Adams",
-      genero: "Sci-Fi",
-      anoPublicacao: 1979,
-      sinopse:
+    const livro1 = await livroDAO.criar(
+      new Livro(
+        "O Guia do Mochileiro das Galáxias",
+        "Douglas Adams",
+        "Sci-Fi",
+        1979,
         "Após a destruição da Terra, Arthur Dent embarca em uma jornada espacial repleta de humor.",
-      usuarioId: comumId,
-    });
+        comumId,
+      )
+    );
 
-    const livro2 = await livroDAO.criar({
-      titulo: "Dom Casmurro",
-      autor: "Machado de Assis",
-      genero: "Romance",
-      anoPublicacao: 1899,
-      sinopse:
+    if (livro1.id == null) {
+      throw new Error("Livro 1 salvo sem ID.");
+    }
+
+    const livro2 = await livroDAO.criar(
+      new Livro(
+        "Dom Casmurro",
+        "Machado de Assis",
+        "Romance",
+        1899,
         "Bentinho relembra sua história com Capitu, marcada por amor, ciúme e dúvidas.",
-      usuarioId: comumId,
-    });
+        comumId,
+      )
+    );
+
+    if (livro2.id == null) {
+      throw new Error("Livro 2 salvo sem ID.");
+    }
 
     console.log(`Livro criado: ${livro1.id} | ${livro1.titulo}`);
     console.log(`Livro criado: ${livro2.id} | ${livro2.titulo}`);

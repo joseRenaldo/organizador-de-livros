@@ -6,6 +6,7 @@ export class Livro {
   #genero!: string;
   #anoPublicacao!: number;
   #sinopse!: string;
+  #usuarioId!: number;
 
   constructor(
     titulo: string,
@@ -13,6 +14,7 @@ export class Livro {
     genero: string,
     anoPublicacao: number,
     sinopse: string,
+    usuarioId: number,
     id?: number,
   ) {
     this.setTitulo(titulo);
@@ -20,6 +22,7 @@ export class Livro {
     this.setGenero(genero);
     this.setAnoPublicacao(anoPublicacao);
     this.setSinopse(sinopse);
+    this.setUsuarioId(usuarioId);
     this.#id = id;
   }
 
@@ -40,6 +43,9 @@ export class Livro {
   }
   get sinopse() {
     return this.#sinopse;
+  }
+  get usuarioId() {
+    return this.#usuarioId;
   }
 
   setTitulo(titulo: string) {
@@ -65,7 +71,7 @@ export class Livro {
     if (!generosValidos.includes(generoNormalizado)) {
       throw new Error("Gênero inválido. Opções: Ficção, Romance, Terror, Biografia, Fantasia, História, sci-fi");
     }
-    this.#genero = genero
+    this.#genero = genero.trim();
   }
 
   setAnoPublicacao(ano: number) {
@@ -81,5 +87,12 @@ export class Livro {
       throw new Error("A sinopse precisa de uma descrição de mais de 10 caracteres");
     }
     this.#sinopse = sinopse.trim();
+  }
+
+  setUsuarioId(usuarioId: number) {
+    if (!Number.isInteger(usuarioId) || usuarioId <= 0) {
+      throw new Error("O usuário do livro deve ser um ID válido");
+    }
+    this.#usuarioId = usuarioId;
   }
 }
