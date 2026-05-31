@@ -3,38 +3,40 @@ import { Prisma } from "../../generated/prisma/client";
 import { Usuario, UsuarioAdm, UsuarioComum } from "../dominio/Usuario";
 
 export class UsuarioDAO {
-  async criar(dados: Prisma.UsuarioCreateInput) {
-    return prisma.usuario.create({ data: dados });
+  async criar(usuario: Usuario): Promise<Usuario> {
+    const dados = {
+      nome: usuario.nome,
+      email: usuario.email,
+      senha: usuario.senha,
+      dataNascimento: usuario.dataNascimento,
+      tipo: usuario.getNivelAcesso(),
+    };
+
+    const registro = await prisma.usuario.create({ data: dados });
+    return this.mapearParaDominio(registro);
   }
 
-  async buscarPorEmail(email: string) {
-    return prisma.usuario.findUnique({ where: { email } });
+  async buscarPorEmail(email: string): Promise<Usuario | null> {
+    const registro = await prisma.usuario.findUnique({ where: { email } });
+    return registro ? this.mapearParaDominio(registro) : null;
   }
 
-  async buscarPorId(id: number) {
-    return prisma.usuario.findUnique({ where: { id } });
+  async buscarPorId(id: number): Promise<Usuario | null> {
+    const registro = await prisma.usuario.findUnique({ where: { id } });
+    return registro ? this.mapearParaDominio(registro) : null;
   }
 
-  async listarTodos() {
-    return prisma.usuario.findMany();
+  async listarTodos(): Promise<Usuario[]> {
+    const registro = await prisma.usuario.findMany();
+    return registro.map((r) => this.mapearParaDominio(r));
   }
 
   private mapearParaDominio(registro: any): Usuario {
-    if (registro.tipo === "ADM") {
-      return new UsuarioAdm(
-        registro.nome,
-        registro.email,
-        registro.senha,
-        registro.dataNascimento,
-        registro.id,
-      );
+    const { id, nome, email, senha, dataNascimento, tipo } = registro;
+    if (tipo === "ADM") {
+      return new UsuarioAdm(nome, email, senha, dataNascimento, id);
     } else {
-      return new UsuarioComum(
-        registro.nome,
-        registro.email,
-        registro.senha,
-        registro.id,
-      );
+      return new UsuarioComum(nome, email, senha, dataNascimento, id);
     }
   }
 }
