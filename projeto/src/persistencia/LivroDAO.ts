@@ -1,5 +1,6 @@
 import { prisma } from "../config/database";
 import { Prisma } from "../../generated/prisma/client";
+import {Livro} from "../dominio/Livro"
 
 export class LivroDAO {
   async criar(dados: Prisma.LivroCreateInput) {
