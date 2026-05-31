@@ -52,6 +52,6 @@ projeto/
 
 
 ## Integrantes do grupo
-- David Leite  ¯\_(ツ)_/¯
-- José Renaldo (❁´◡`❁)
+- David Leite (_　_)。゜zｚＺ
+- José Renaldo ฅ^•ﻌ•^ฅ
 - João Gabriel ༼ つ ◕_◕ ༽つ
