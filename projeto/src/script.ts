@@ -180,9 +180,9 @@ const comumId: number = comumSalvo.id;
       );
     });
 
-    console.log("\n✅ CRUD executado com sucesso!");
+    console.log("\n CRUD executado com sucesso!");
   } catch (error) {
-    console.error("\n❌ Erro durante execução:");
+    console.error("\n Erro durante execução:");
     console.error(error);
   } finally {
     await prisma.$disconnect();
