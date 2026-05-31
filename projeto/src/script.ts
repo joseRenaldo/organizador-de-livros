@@ -33,6 +33,18 @@ async function main() {
     console.log("Novo mortal: ", mortalSalvo.nome);
 
     // termino o resto dps, fui jogar Dota, se mexer nessa porra e bagunçar o teste eu te mato, se não tiver bagunçado eu te dou um abraço, valeu?
+
+    console.log("Buscando usuário por email");
+    const usuarioEncontrado = await usuarioDAO.buscarPorEmail("simpleshumano@email.com")
+
+    if(usuarioEncontrado) {
+      console.log("Encontrado: ", usuarioEncontrado.nome, "| Nível acesso: ", usuarioEncontrado.getNivelAcesso());
+    }
+
+    console.log("Listando todos os usuários");
+    const lista = await usuarioDAO.listarTodos();
+
+
   } catch (error) {
     console.error(error);
   }
