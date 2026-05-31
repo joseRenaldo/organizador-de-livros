@@ -1,10 +1,12 @@
 import { prisma } from "../config/database";
 import { Prisma } from "../../generated/prisma/client";
-import {Livro} from "../dominio/Livro"
+import { Livro } from "../dominio/Livro";
 
 export class LivroDAO {
-  async criar(dados: Prisma.LivroCreateInput) {
-    return prisma.livro.create({ data: dados });
+  async criar(dados: Prisma.LivroUncheckedCreateInput) {
+    return prisma.livro.create({
+      data: dados,
+    });
   }
 
   async pesquisar(usuarioId: number, termo: string) {
@@ -18,6 +20,10 @@ export class LivroDAO {
         ],
       },
     });
+  }
+
+  async listarTodos() {
+    return prisma.livro.findMany();
   }
 
   async buscarPorId(id: number) {
