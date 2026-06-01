@@ -1,4 +1,4 @@
-// dominio/Livro.ts
+
 export class Livro {
   #id?: number;
   #titulo!: string;
