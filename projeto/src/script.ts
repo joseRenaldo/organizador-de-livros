@@ -85,9 +85,8 @@ const comumId: number = comumSalvo.id;
       );
     });
 
-    // ==========================
     // LIVROS
-    // ==========================
+
 
     secao("Criando livros");
 
