@@ -20,6 +20,8 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
   - DAOs (Data Access Objects) separados da lógica de domínio
   - Mapeamento objeto‑relacional manual (sem perda de validações)
 
+    <img width="1283" height="573" alt="Captura de tela 2026-05-31 205403" src="https://github.com/user-attachments/assets/69690f5d-4562-4ddc-a42a-9608cf2a2074" />
+
 ## Tecnologias Utilizadas
 
 - **Node.js**
