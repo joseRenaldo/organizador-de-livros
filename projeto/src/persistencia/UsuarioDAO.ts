@@ -1,7 +1,7 @@
 import { prisma } from "../config/database";
 import { Prisma } from "../../generated/prisma/client";
 import { Usuario, UsuarioAdm, UsuarioComum } from "../dominio/Usuario";
-
+// Mapear direito o um para 1:N no DAO e a parte de excessões
 export class UsuarioDAO {
   async criar(usuario: Usuario): Promise<Usuario> {
     const dados = {
