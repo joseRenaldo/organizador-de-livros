@@ -1,30 +1,58 @@
-<<<<<<< HEAD
-# trabalhoPWEB
-=======
-# organizador-de-livros
-um organizador de livros feito com prisma e typescript
+# Organizador de Livros - Sistema de Gerenciamento Pessoal
 
-João cagão
-modelo conceitual
-< <img width="1000" height="500" alt="img" src="https://github.com/user-attachments/assets/ccc2b3cb-cdc4-40b8-bee9-eef7fa9228ab" />
-" />
+Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO** e **PWEB**. O sistema permite o cadastro, consulta, atualização e remoção de livros, com controle de usuários (comum e administrador) e validações rigorosas no back‑end. A persistência de dados é feita com **Prisma ORM** (SQLite).
 
-modelo relacional 1-->n
-<img width="716" height="222" alt="image" src="https://github.com/user-attachments/assets/b89a1eef-7785-419e-8c1d-b86ebbf3fc2a" />
+##  Funcionalidades Principais
+
+- **Usuários**
+  - Cadastro com nome, e‑mail, senha e data de nascimento (idade mínima: 12 anos)
+  - Níveis de acesso: `COMUM` e `ADM` (herança e polimorfismo)
+  - Login por e‑mail e senha (verificação no banco de dados)
+
+- **Livros**
+  - CRUD completo: criar, listar, pesquisar, atualizar e excluir
+  - Atributos: título, autor, gênero, ano de publicação, sinopse
+  - Validações: título (≥2 caracteres), autor (≥2), sinopse (≥10), ano (1000–ano atual), gênero (lista pré‑definida)
+  - Cada livro pertence a um usuário (relacionamento 1:N)
+
+- **Persistência**
+  - Banco de dados relacional com Prisma ORM
+  - DAOs (Data Access Objects) separados da lógica de domínio
+  - Mapeamento objeto‑relacional manual (sem perda de validações)
+
+## Tecnologias Utilizadas
+
+- **Node.js**
+- **TypeScript** – tipagem estática e classes com encapsulamento
+- **Prisma ORM** – migrations e acesso ao banco de dados
+- **SQLite**
+- **ES Modules** – organização modular do código
+
+## Estrutura da pasta projeto(A pasta correta com nosso trabalho, por favor ignorem o resto)
+```
+_________________________________________________________________
+projeto/
+|--- src/
+| |--- config/
+│ │      |--- database.ts # Configuração do Prisma Client
+│ |--- dominio/
+│ │      |--- Livro.ts # Classe Livro (encapsulamento, validações)
+│ │      |--- Usuario.ts # Usuario (abstract) + UsuarioComum/UsuarioAdm
+│ |--- persistencia/
+│ │      |--- LivroDAO.ts # Operações de persistência para Livro
+│ │      |--- UsuarioDAO.ts # Operações para Usuario
+│ |--- (controllers/routes/view) # Camada de apresentação # Camada de apresentação (ainda em progresso)
+│ |                                                         # (não incluso neste repositório)
+│ |--- prisma/
+| |      |--- schema.prisma # Modelos Usuario e Livro
+│ |      |--- migrations/
+| |--- package.json
+| |--- tsconfig.json
+|__________________________________________________________________________________________________________________
+```
 
 
---Tema 1: Organizador de Livro
-O objetivo é criar uma aplicação que permita aos usuários organizar sua coleção de
-livros de forma eficiente.
-Principais Funcionalidades
-1. Adicionar Livros: Os usuários podem inserir informações sobre novos livros,
-como título, autor, gênero, ano de publicação e uma breve sinopse.
-2. Pesquisar Livros: Os usuários podem pesquisar livros por título, autor ou
-gênero, obtendo uma lista de resultados correspondentes.
-3. Visualizar Detalhes: Ao selecionar um livro na lista de resultados, os usuários
-podem ver os detalhes completos do livro, incluindo sua sinopse.
-4. Editar Informações: Os usuários podem editar os detalhes dos livros já
-cadastrados, permitindo atualizações quando necessário.
-5. Remover Livros: Possibilidade de remover livros da biblioteca, excluindo-os
-permanentemente.--
->>>>>>> 3f242bd685b8fc4f7369bf5d8aea9b12c8264d5e
+## Integrantes do grupo
+- David Leite (_　_)。゜zｚＺ
+- José Renaldo ฅ^•ﻌ•^ฅ
+- João Gabriel ༼ つ ◕_◕ ༽つ
