@@ -85,6 +85,33 @@ const comumId: number = comumSalvo.id;
       );
     });
 
+    secao("Atualizando usuário comum");
+
+    comumSalvo.setNome("Ana Comum Silva");
+    comumSalvo.setSenha("novaSenha123");
+
+    const usuarioAtualizado = await usuarioDAO.atualizar(comumSalvo);
+    console.log(
+      `Atualizado: ${usuarioAtualizado.id} | ${usuarioAtualizado.nome} | ${usuarioAtualizado.email}`
+    );
+
+    secao("Deletando usuário admin");
+
+    await usuarioDAO.deletar(adminId);
+    const adminRemovido = await usuarioDAO.buscarPorId(adminId);
+    console.log(
+      adminRemovido ? "Falha ao remover admin." : "Admin removido com sucesso."
+    );
+
+    secao("Listando usuários após exclusão");
+
+    const usuariosRestantes = await usuarioDAO.listarTodos();
+    usuariosRestantes.forEach((usuario) => {
+      console.log(
+        `ID: ${usuario.id} | ${usuario.nome} | ${usuario.email}`
+      );
+    });
+
     // LIVROS
 
 
@@ -155,6 +182,18 @@ const comumId: number = comumSalvo.id;
         `ID: ${livro.id} | ${livro.titulo} | ${livro.autor}`
       );
     });
+
+    secao("Buscando usuário com seus livros");
+
+    const usuarioComLivros = await usuarioDAO.buscarPorId(comumId);
+    if (usuarioComLivros) {
+      console.log(
+        `Usuário: ${usuarioComLivros.nome} | Livros: ${usuarioComLivros.livros.length}`
+      );
+      usuarioComLivros.livros.forEach((livro) => {
+        console.log(`- ${livro.titulo} | ${livro.autor}`);
+      });
+    }
 
     secao("Atualizando livro");
 
