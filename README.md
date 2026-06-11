@@ -20,7 +20,11 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
   - DAOs (Data Access Objects) separados da lógica de domínio
   - Mapeamento objeto‑relacional manual (sem perda de validações)
 
+    <img width="823" height="272" alt="image" src="https://github.com/user-attachments/assets/19f9aa03-7f9e-4aa2-8424-39bf34136e5f" />
+    
     <img width="1283" height="573" alt="Captura de tela 2026-05-31 205403" src="https://github.com/user-attachments/assets/69690f5d-4562-4ddc-a42a-9608cf2a2074" />
+
+
 
 ## Tecnologias Utilizadas
 
