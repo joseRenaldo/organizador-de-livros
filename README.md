@@ -12,7 +12,7 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
 - **Livros**
   - CRUD completo: criar, listar, pesquisar, atualizar e excluir
   - Atributos: título, autor, gênero, ano de publicação, sinopse
-  - Validações: título (≥2 caracteres), autor (≥2), sinopse (≥10), ano (1000–ano atual), gênero (lista pré‑definida)
+  - Validações: título (caracteres ≥2), autor (caracteres ≥2), sinopse (caracteres ≥10), ano (1000 –> ano atual), gênero (lista pré‑definida)
   - Cada livro pertence a um usuário (relacionamento 1:N)
 
 - **Persistência**
