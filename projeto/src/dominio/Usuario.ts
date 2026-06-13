@@ -1,12 +1,13 @@
 import { Livro } from "./Livro";
 
 export abstract class Usuario {
-  #id?: number;
-  #nome!: string;
-  #email!: string;
-  #senha!: string;
-  #dataNascimento!: Date;
-  #livros: Livro[] = [];
+  // Substituído o '#' nativo pelo 'private' clássico do TypeScript
+  private _id?: number;
+  private _nome!: string;
+  private _email!: string;
+  private _senha!: string;
+  private _dataNascimento!: Date;
+  private _livros: Livro[] = [];
 
   constructor(
     nome: string,
@@ -20,34 +21,23 @@ export abstract class Usuario {
     this.setEmail(email);
     this.setSenha(senha);
     this.setDataNascimento(dataNascimento);
-    this.#id = id;
-    this.#livros = livros;
+    this._id = id;
+    this._livros = livros;
   }
 
-  get id() {
-    return this.#id;
-  }
-  get nome() {
-    return this.#nome;
-  }
-  get email() {
-    return this.#email;
-  }
-  get senha() {
-    return this.#senha;
-  }
-  get dataNascimento() {
-    return this.#dataNascimento;
-  }
-  get livros() {
-    return this.#livros;
-  }
+  // Getters públicos que o Prisma/Express agora conseguem ler normalmente
+  get id() { return this._id; }
+  get nome() { return this._nome; }
+  get email() { return this._email; }
+  get senha() { return this._senha; }
+  get dataNascimento() { return this._dataNascimento; }
+  get livros() { return this._livros; }
 
   setNome(nome: string) {
     if (!nome || nome.trim().length < 2) {
       throw new Error("O nome deve ter pelo menos 2 caracteres");
     }
-    this.#nome = nome.trim();
+    this._nome = nome.trim();
   }
 
   setEmail(email: string) {
@@ -59,14 +49,14 @@ export abstract class Usuario {
     if (!temArroba || !temPonto || temEspaco) {
       throw new Error("Email inválido");
     }
-    this.#email = emailTrim;
+    this._email = emailTrim;
   }
 
   setSenha(senha: string) {
     if (!senha || senha.length < 6) {
       throw new Error("A senha deve ter pelo menos 6 caracteres");
     }
-    this.#senha = senha;
+    this._senha = senha;
   }
 
   setDataNascimento(data: Date) {
@@ -80,7 +70,7 @@ export abstract class Usuario {
     if (isNaN(data.getTime()) || data > hoje || idade < idadeMinima) {
       throw new Error(`Data de nascimento inválida (idade mínima: ${idadeMinima} anos)`);
     }
-    this.#dataNascimento = data;
+    this._dataNascimento = data;
   }
 
   abstract getNivelAcesso(): string;

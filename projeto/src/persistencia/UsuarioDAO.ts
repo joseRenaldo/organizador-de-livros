@@ -13,7 +13,12 @@ export class UsuarioDAO {
       tipo: usuario.getNivelAcesso(),
     };
 
-    const registro = await prisma.usuario.create({ data: dados });
+    
+    const registro = await prisma.usuario.create({ 
+      data: dados,
+      include: { livros: true } 
+    });
+    
     return this.mapearParaDominio(registro);
   }
 
@@ -77,13 +82,12 @@ export class UsuarioDAO {
   }
 
   private mapearParaDominio(registro: any): Usuario {
-    const { id, nome, email, senha, dataNascimento, tipo, livros } = registro;
-    const livrosDoUsuario = this.mapearLivros(livros || []);
-
-    if (tipo === "ADM") {
-      return new UsuarioAdm(nome, email, senha, dataNascimento, id, livrosDoUsuario);
+    const livrosMapeados = this.mapearLivros(registro.livros || []);
+    
+    if (registro.tipo === "ADM") {
+      return new UsuarioAdm(registro.nome, registro.email, registro.senha, registro.dataNascimento, registro.id, livrosMapeados);
     } else {
-      return new UsuarioComum(nome, email, senha, dataNascimento, id, livrosDoUsuario);
+      return new UsuarioComum(registro.nome, registro.email, registro.senha, registro.dataNascimento, registro.id, livrosMapeados);
     }
   }
 }
