@@ -36,25 +36,43 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
 
 ## Estrutura da pasta projeto(A pasta correta com nosso trabalho, por favor ignorem o resto)
 ```
-_________________________________________________________________
+______________________________________________________________________________________________________________________
 projeto/
 |--- src/
+| |---app/
+| |      |--- controller/
+| |      |          |--- LivroController.js # possibilita a criação das rotas de livro
+| |      |          |--- UsuarioController.js #possibilita a criação das rotas de usuario
+| |      |
+| |      |--- repositories/ ##ignoravel n sei se vou usar essa pasta by RPG
+| |
 | |--- config/
 │ │      |--- database.ts # Configuração do Prisma Client
+| |
 │ |--- dominio/
-│ │      |--- Livro.ts # Classe Livro (encapsulamento, validações)
-│ │      |--- Usuario.ts # Usuario (abstract) + UsuarioComum/UsuarioAdm
+│ │      |--- Livro.ts # Classe Livro (encapsulamento, validações)            # modificado para o funcionamento do servidor by RPG
+│ │      |--- Usuario.ts # Usuario (abstract) + UsuarioComum/UsuarioAdm       # modificado para o funcionamento do servidor by RPG
+| |
 │ |--- persistencia/
 │ │      |--- LivroDAO.ts # Operações de persistência para Livro
 │ │      |--- UsuarioDAO.ts # Operações para Usuario
+| |
 │ |--- (controllers/routes/view) # Camada de apresentação # Camada de apresentação (ainda em progresso)
 │ |                                                         # (não incluso neste repositório)
 │ |--- prisma/
 | |      |--- schema.prisma # Modelos Usuario e Livro
 │ |      |--- migrations/
+| |
+| |
+| |--- app.js # impossibilita a visualização das rotas por terceiros em navegadore, aprimorando a segurança
+| |
+| |--- server.js # é onde fica o app.listen() que é oque cria o servidor
+| |
+| |--- routes.js # é onde está localizada todas as rotas que vão ser utilizadas
+| |
 | |--- package.json
 | |--- tsconfig.json
-|__________________________________________________________________________________________________________________
+|_____________________________________________________________________________________________________________________
 ```
 
 
