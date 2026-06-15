@@ -18,6 +18,10 @@
     "tsx": "^4.22.3",
     "typescript": "^6.0.3"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsx src/server.js"
+  },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",
     "@prisma/client": "^7.8.0",
