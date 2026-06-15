@@ -7,10 +7,13 @@ class LivroController {
 
     async criarLivro(req, res) {
         try {
-            const { titulo, autor, genero, anoPublicacao, sinopse, usuarioId } = req.body;
+            const { titulo, autor, genero, anoPublicacao, sinopse } = req.body;
             const ano = typeof anoPublicacao === 'string' && anoPublicacao.includes('-')
                 ? new Date(anoPublicacao).getFullYear()
                 : Number(anoPublicacao);
+
+            const usuarioId = req.usuarioLogado.id //impede que uma pessoa adicione o id de outra pessoa 
+
             const novoLivro = new Livro(titulo, autor, genero, ano, sinopse, Number(usuarioId));
             
             const livroSalvo = await livroDAO.criar(novoLivro);
