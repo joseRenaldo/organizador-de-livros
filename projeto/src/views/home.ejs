@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Organizador de Livros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .livro {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+        }
+        .btn-add {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+        .btn-delete:hover, .btn-add:hover {
+            opacity: 0.9;
+        }
+        .mensagem {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .erro {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .pesquisa {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 Organizador de Livros</h1>
+
+    <!-- Mensagens de feedback -->
+    <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+        <div class="mensagem"><%= mensagem %></div>
+    <% } %>
+
+    <% if (typeof erro !== 'undefined' && erro) { %>
+        <div class="erro"><%= erro %></div>
+    <% } %>
+
+    <!-- Formulário de pesquisa -->
+    <div class="pesquisa">
+        <form action="/livros/pesquisar/1" method="GET">
+            <input type="text" name="termo" placeholder="Pesquisar por título, autor ou gênero...">
+            <button type="submit">🔍 Pesquisar</button>
+            <a href="/">Limpar</a>
+        </form>
+    </div>
+
+    <!-- Formulário de criar livro -->
+    <form action="/livros" method="POST">
+        <h3>Adicionar novo livro</h3>
+        <input type="text" name="titulo" placeholder="Título" required>
+        <input type="text" name="autor" placeholder="Autor" required>
+        <input type="text" name="genero" placeholder="Gênero" required>
+        <input type="number" name="anoPublicacao" placeholder="Ano" required>
+        <input type="text" name="sinopse" placeholder="Sinopse">
+        <input type="number" name="usuarioId" placeholder="Usuário ID" required value="1">
+        <button class="btn-add" type="submit">Adicionar Livro</button>
+    </form>
+
+    <hr>
+
+    <!-- LISTA DE LIVROS -->
+    <h2>Meus Livros (<%= typeof livros !== 'undefined' && livros ? livros.length : 0 %>)</h2>
+
+    <% if (typeof livros !== 'undefined' && livros && livros.length > 0) { %>
+        <% livros.forEach(livro => { %>
+            <div class="livro">
+                <h3><%= livro.titulo %></h3>
+                <p><strong>Autor:</strong> <%= livro.autor %></p>
+                <p><strong>Gênero:</strong> <%= livro.genero %></p>
+                <p><strong>Ano:</strong> <%= livro.anoPublicacao %></p>
+                <% if (livro.sinopse) { %>
+                    <p><strong>Sinopse:</strong> <%= livro.sinopse %></p>
+                <% } %>
+                
+                <!-- Formulário de exclusão -->
+                <form action="/livros/<%= livro.id %>/delete" method="POST" style="display: inline-block;">
+                    <button class="btn-delete" type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
+                </form>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>📭 Nenhum livro cadastrado ainda. Adicione seu primeiro livro!</p>
+    <% } %>
+</body>
+</html>g
