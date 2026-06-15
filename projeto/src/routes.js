@@ -24,6 +24,6 @@ routes.delete('/usuario/:id',authMiddleware, UsuarioController.excluirUsuario);
 
 // Rota de login ---------------------
 routes.post('/login', AuthController.login);
-routes.post('/usuario', UsuarioController.criarUsuario);
+routes.post('/registrar', UsuarioController.criarUsuario);
 
 export default routes;

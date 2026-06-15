@@ -8,9 +8,9 @@ class UsuarioController {
     async criarUsuario(req, res) {
 
         try {
-            const senhaCrypto = await bcrypt.hash(senha, 10);
-            const { nome, email, senhaCrypto, dataNascimento, tipo } = req.body;
-            
+
+            const { nome, email, senha, dataNascimento, tipo } = req.body;
+                        const senhaCrypto = await bcrypt.hash(senha, 10);
             // É essencial converter a string de data para um objeto Date real
             const dataNasce = new Date(dataNascimento);
             
@@ -84,11 +84,13 @@ class UsuarioController {
 export default new UsuarioController();
 
 //teste de criação de usuário postman
-/* {
+/* 
+{
     "nome": "jose",
     "email": "jrpg@gmail.com",
     "senha": "1234567",
     "dataNascimento":"2000-09-13",
     "tipo": "ADM"
 
-} */
+} 
+*/
