@@ -30,11 +30,15 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
 
 - **Node.js**
 - **TypeScript** – tipagem estática e classes com encapsulamento
+- **JavaScrip**
+- **JsonWebToken**
+- **bcrypt** - criptografia da senha em estilo hash, para reduzir a vulnerabilidade do 'site'
+- **express** - criação do servidor https
 - **Prisma ORM** – migrations e acesso ao banco de dados
 - **SQLite**
 - **ES Modules** – organização modular do código
 
-## Estrutura da pasta projeto(A pasta correta com nosso trabalho, por favor ignorem o resto)
+## Estrutura da pasta projeto
 ```
 ______________________________________________________________________________________________________________________
 projeto/
