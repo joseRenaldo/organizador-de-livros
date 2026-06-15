@@ -45,8 +45,12 @@ projeto/
 |--- src/
 | |---app/
 | |      |--- controller/
+| |      |          |--- AuthController.js #rota de login e criptografia da senha via hash, cria um temporizador para a validação do token 
 | |      |          |--- LivroController.js # possibilita a criação das rotas de livro
 | |      |          |--- UsuarioController.js #possibilita a criação das rotas de usuario
+| |      |
+| |      |--- middlewares
+| |      |          |---authMiddleware.js #verifica a se são a mesma senha, verifica a header e re-injeta os dados do usuario na requisição, aprimorando a segurança
 | |      |
 | |      |--- repositories/ ##ignoravel n sei se vou usar essa pasta by RPG
 | |
