@@ -1,21 +1,24 @@
 import { UsuarioDAO } from "../../persistencia/UsuarioDAO.ts";
 import { UsuarioComum, UsuarioAdm } from "../../dominio/Usuario.ts";
+import bcrypt from 'bcryptjs'
 
 const usuarioDAO = new UsuarioDAO();
 
 class UsuarioController {
     async criarUsuario(req, res) {
+
         try {
-            const { nome, email, senha, dataNascimento, tipo } = req.body;
+            const senhaCrypto = await bcrypt.hash(senha, 10);
+            const { nome, email, senhaCrypto, dataNascimento, tipo } = req.body;
             
             // É essencial converter a string de data para um objeto Date real
             const dataNasce = new Date(dataNascimento);
             
             let novoUsuario;
             if (tipo === "ADM") {
-                novoUsuario = new UsuarioAdm(nome, email, senha, dataNasce);
+                novoUsuario = new UsuarioAdm(nome, email, senhaCrypto, dataNasce);
             } else {
-                novoUsuario = new UsuarioComum(nome, email, senha, dataNasce);
+                novoUsuario = new UsuarioComum(nome, email, senhaCrypto, dataNasce);
             }
 
            

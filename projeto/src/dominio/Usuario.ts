@@ -1,7 +1,7 @@
 import { Livro } from "./Livro";
 
 export abstract class Usuario {
-
+  // Substituído o '#' nativo pelo 'private' clássico do TypeScript
   private _id?: number;
   private _nome!: string;
   private _email!: string;
