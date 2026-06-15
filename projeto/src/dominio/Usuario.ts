@@ -1,7 +1,7 @@
 import { Livro } from "./Livro";
 
 export abstract class Usuario {
-  // Substituído o '#' nativo pelo 'private' clássico do TypeScript
+
   private _id?: number;
   private _nome!: string;
   private _email!: string;
@@ -25,7 +25,7 @@ export abstract class Usuario {
     this._livros = livros;
   }
 
-  // Getters públicos que o Prisma/Express agora conseguem ler normalmente
+
   get id() { return this._id; }
   get nome() { return this._nome; }
   get email() { return this._email; }
