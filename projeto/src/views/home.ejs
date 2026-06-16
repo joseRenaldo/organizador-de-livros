@@ -14,25 +14,18 @@
             text-align: center;
             color: #333;
         }
-        form {
+        form, .auth-panel, .livro, .pesquisa {
             background: white;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        input, button {
+        input, button, select {
             padding: 10px;
             margin: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
-        }
-        .livro {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .btn-delete {
             background: #dc3545;
@@ -41,79 +34,113 @@
             cursor: pointer;
             padding: 8px 15px;
         }
-        .btn-add {
+        .btn-add, .btn-edit, .btn-login, .btn-register, .btn-logout {
             background: #28a745;
             color: white;
             border: none;
             cursor: pointer;
             padding: 10px 20px;
         }
-        .btn-delete:hover, .btn-add:hover {
+        .btn-delete:hover, .btn-add:hover, .btn-edit:hover, .btn-login:hover, .btn-register:hover, .btn-logout:hover {
             opacity: 0.9;
+        }
+        .mensagem, .erro {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
         }
         .mensagem {
             background: #d4edda;
             color: #155724;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
         }
         .erro {
             background: #f8d7da;
             color: #721c24;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
         }
-        .pesquisa {
-            background: white;
+        .edit-form {
+            background: #f9f9f9;
             padding: 15px;
-            margin-bottom: 20px;
             border-radius: 8px;
+            margin-top: 10px;
+        }
+        .auth-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .auth-box {
+            flex: 1;
+            min-width: 260px;
         }
     </style>
 </head>
 <body>
     <h1>📚 Organizador de Livros</h1>
 
-    <!-- Mensagens de feedback -->
-    <% if (typeof mensagem !== 'undefined' && mensagem) { %>
-        <div class="mensagem"><%= mensagem %></div>
-    <% } %>
+    <div id="feedback">
+        <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+            <div class="mensagem"><%= mensagem %></div>
+        <% } %>
+        <% if (typeof erro !== 'undefined' && erro) { %>
+            <div class="erro"><%= erro %></div>
+        <% } %>
+    </div>
 
-    <% if (typeof erro !== 'undefined' && erro) { %>
-        <div class="erro"><%= erro %></div>
-    <% } %>
+    <div class="auth-panel">
+        <div class="auth-box">
+            <h3>Login</h3>
+            <form id="login-form">
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="password" name="senha" placeholder="Senha" required>
+                <button class="btn-login" type="submit">Entrar</button>
+            </form>
+        </div>
+        <div class="auth-box">
+            <h3>Registrar</h3>
+            <form id="register-form">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="password" name="senha" placeholder="Senha" required>
+                <input type="date" name="dataNascimento" required>
+                <select name="tipo">
+                    <option value="COMUM">Comum</option>
+                    <option value="ADM">Administrador</option>
+                </select>
+                <button class="btn-register" type="submit">Registrar</button>
+            </form>
+        </div>
+    </div>
 
-    <!-- Formulário de pesquisa -->
     <div class="pesquisa">
-        <form action="/livros/pesquisar/1" method="GET">
-            <input type="text" name="termo" placeholder="Pesquisar por título, autor ou gênero...">
+        <form id="search-form" action="/livros/pesquisar" method="GET">
+            <input type="text" name="termo" placeholder="Pesquisar por título, autor ou gênero..." value="<%= typeof termo !== 'undefined' ? termo : '' %>">
+            <input type="hidden" name="usuarioId" value="<%= typeof usuarioId !== 'undefined' ? usuarioId : 0 %>" id="search-usuarioId">
             <button type="submit">🔍 Pesquisar</button>
             <a href="/">Limpar</a>
         </form>
     </div>
 
-    <!-- Formulário de criar livro -->
-    <form action="/livros" method="POST">
+    <form id="add-book-form" action="/livros" method="POST">
         <h3>Adicionar novo livro</h3>
         <input type="text" name="titulo" placeholder="Título" required>
         <input type="text" name="autor" placeholder="Autor" required>
         <input type="text" name="genero" placeholder="Gênero" required>
         <input type="number" name="anoPublicacao" placeholder="Ano" required>
         <input type="text" name="sinopse" placeholder="Sinopse">
-        <input type="number" name="usuarioId" placeholder="Usuário ID" required value="1">
+        <input type="hidden" name="usuarioId" value="<%= typeof usuarioId !== 'undefined' ? usuarioId : 0 %>" id="book-usuarioId">
         <button class="btn-add" type="submit">Adicionar Livro</button>
     </form>
 
     <hr>
 
-    <!-- LISTA DE LIVROS -->
+    <div id="user-status" class="mensagem" style="display:none;"></div>
+    <button id="logout-button" class="btn-logout" type="button" style="display:none; margin-bottom:20px;">Sair</button>
+
     <h2>Meus Livros (<%= typeof livros !== 'undefined' && livros ? livros.length : 0 %>)</h2>
 
     <% if (typeof livros !== 'undefined' && livros && livros.length > 0) { %>
         <% livros.forEach(livro => { %>
-            <div class="livro">
+            <div class="livro" data-book-id="<%= livro.id %>">
                 <h3><%= livro.titulo %></h3>
                 <p><strong>Autor:</strong> <%= livro.autor %></p>
                 <p><strong>Gênero:</strong> <%= livro.genero %></p>
@@ -121,15 +148,171 @@
                 <% if (livro.sinopse) { %>
                     <p><strong>Sinopse:</strong> <%= livro.sinopse %></p>
                 <% } %>
-                
-                <!-- Formulário de exclusão -->
+                <button class="btn-edit" type="button" data-book-id="<%= livro.id %>">Editar</button>
                 <form action="/livros/<%= livro.id %>/delete" method="POST" style="display: inline-block;">
                     <button class="btn-delete" type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
                 </form>
+                <div class="edit-form" id="edit-form-<%= livro.id %>" style="display:none;">
+                    <form class="edit-book-form" data-book-id="<%= livro.id %>">
+                        <input type="text" name="titulo" value="<%= livro.titulo %>" placeholder="Título" required>
+                        <input type="text" name="autor" value="<%= livro.autor %>" placeholder="Autor" required>
+                        <input type="text" name="genero" value="<%= livro.genero %>" placeholder="Gênero" required>
+                        <input type="number" name="anoPublicacao" value="<%= livro.anoPublicacao %>" placeholder="Ano" required>
+                        <input type="text" name="sinopse" value="<%= livro.sinopse %>" placeholder="Sinopse">
+                        <button class="btn-add" type="submit">Salvar</button>
+                        <button class="btn-delete cancel-edit" type="button" data-book-id="<%= livro.id %>">Cancelar</button>
+                    </form>
+                </div>
             </div>
         <% }) %>
     <% } else { %>
         <p>📭 Nenhum livro cadastrado ainda. Adicione seu primeiro livro!</p>
     <% } %>
+
+    <script>
+        const storageKey = 'organizadorLivroUsuario';
+
+        function getStoredUser() {
+            try {
+                return JSON.parse(localStorage.getItem(storageKey) || 'null');
+            } catch {
+                return null;
+            }
+        }
+
+        function setStoredUser(user) {
+            localStorage.setItem(storageKey, JSON.stringify(user));
+        }
+
+        function clearStoredUser() {
+            localStorage.removeItem(storageKey);
+        }
+
+        function updateUserStatus() {
+            const user = getStoredUser();
+            const status = document.getElementById('user-status');
+            const logoutButton = document.getElementById('logout-button');
+            const bookUsuarioId = document.getElementById('book-usuarioId');
+            const searchUsuarioId = document.getElementById('search-usuarioId');
+            if (user && user.id) {
+                status.style.display = 'block';
+                status.textContent = `Logado como ${user.nome} (${user.tipo}) | Usuário ID: ${user.id}`;
+                bookUsuarioId.value = user.id;
+                searchUsuarioId.value = user.id;
+                logoutButton.style.display = 'inline-block';
+            } else {
+                status.style.display = 'none';
+                bookUsuarioId.value = '0';
+                searchUsuarioId.value = '0';
+                logoutButton.style.display = 'none';
+            }
+        }
+
+        function showMessage(message, isError = false) {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `<div class="${isError ? 'erro' : 'mensagem'}">${message}</div>`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserStatus();
+
+            document.getElementById('login-form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const data = {
+                    email: form.email.value,
+                    senha: form.senha.value,
+                };
+
+                try {
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+                    const body = await response.json();
+                    if (!response.ok) throw new Error(body.message || 'Erro ao fazer login');
+                    setStoredUser({ id: body.usuario.id, nome: body.usuario.nome, tipo: body.usuario.tipo, token: body.token });
+                    updateUserStatus();
+                    showMessage('Login realizado com sucesso!');
+                    window.location.reload();
+                } catch (error) {
+                    showMessage(error.message, true);
+                }
+            });
+
+            document.getElementById('register-form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const data = {
+                    nome: form.nome.value,
+                    email: form.email.value,
+                    senha: form.senha.value,
+                    dataNascimento: form.dataNascimento.value,
+                    tipo: form.tipo.value,
+                };
+
+                try {
+                    const response = await fetch('/registrar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+                    const body = await response.json();
+                    if (!response.ok) throw new Error(body.message || 'Erro ao registrar');
+                    showMessage('Registro realizado com sucesso! Faça login para usar seu ID.');
+                    form.reset();
+                } catch (error) {
+                    showMessage(error.message, true);
+                }
+            });
+
+            document.querySelectorAll('.btn-edit').forEach(button => {
+                button.addEventListener('click', () => {
+                    const bookId = button.dataset.bookId;
+                    const form = document.getElementById(`edit-form-${bookId}`);
+                    if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                });
+            });
+
+            document.querySelectorAll('.cancel-edit').forEach(button => {
+                button.addEventListener('click', () => {
+                    const bookId = button.dataset.bookId;
+                    const form = document.getElementById(`edit-form-${bookId}`);
+                    if (form) form.style.display = 'none';
+                });
+            });
+
+            document.querySelectorAll('.edit-book-form').forEach(form => {
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    const bookId = form.dataset.bookId;
+                    const data = {
+                        titulo: form.titulo.value,
+                        autor: form.autor.value,
+                        genero: form.genero.value,
+                        anoPublicacao: form.anoPublicacao.value,
+                        sinopse: form.sinopse.value,
+                    };
+
+                    try {
+                        const response = await fetch(`/livros/${bookId}/editar`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data),
+                        });
+                        if (!response.ok) {
+                            const body = await response.text();
+                            throw new Error(body || 'Erro ao atualizar livro');
+                        }
+                        window.location.reload();
+                    } catch (error) {
+                        showMessage(error.message, true);
+                    }
+                });
+            });
+
+        });
+    </script>
 </body>
-</html>g
+</html>

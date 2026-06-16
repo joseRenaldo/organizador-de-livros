@@ -19,17 +19,26 @@ export class LivroDAO {
   }
 
   async pesquisar(usuarioId: number, termo: string): Promise<Livro[]> {
-    const registros = await prisma.livro.findMany({
-      where: {
-        usuarioId: usuarioId,
-        OR: [
-          { titulo: { contains: termo } },
-          { autor: { contains: termo } },
-          { genero: { contains: termo } },
-        ],
-      },
-    });
+    const pesquisa = termo
+      ? {
+          OR: [
+            { titulo: { contains: termo } },
+            { autor: { contains: termo } },
+            { genero: { contains: termo } },
+          ],
+        }
+      : {};
 
+    const where = usuarioId > 0 ? { usuarioId, ...pesquisa } : { ...pesquisa };
+
+    const registros = await prisma.livro.findMany({ where });
+    return registros.map((registro) => this.mapearParaDominio(registro));
+  }
+
+  async listarPorUsuario(usuarioId: number): Promise<Livro[]> {
+    const registros = await prisma.livro.findMany({
+      where: { usuarioId },
+    });
     return registros.map((registro) => this.mapearParaDominio(registro));
   }
 
