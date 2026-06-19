@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { UsuarioDAO } from '../../persistencia/UsuarioDAO'
+import { UsuarioDAO } from '../../persistencia/UsuarioDAO.ts'
 
 const usuarioDAO = new UsuarioDAO();
 

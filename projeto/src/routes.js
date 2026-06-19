@@ -1,12 +1,15 @@
 import express from "express";
+import multer from "multer";
 import LivroController from "./app/controllers/LivroController.js";
 import UsuarioController from "./app/controllers/UsuarioController.js";
 import authMiddleware from "./app/middlewares/authMiddleware.js";
 import AuthController from "./app/controllers/AuthController.js";
 import { LivroDAO } from "./persistencia/LivroDAO.ts";
 import { Livro } from "./dominio/Livro.ts";
+import { ServicoMinio } from "./services/ServicoMinio.ts";
 
 const routes = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
 const livroDAO = new LivroDAO();
 
 async function renderHome(res, { livros = null, mensagem = null, erro = null, termo = '', usuarioId = 0 } = {}) {
@@ -155,6 +158,42 @@ routes.post('/livros/:id/editar', async (req, res) => {
       termo: '',
       usuarioId: Number(req.body.usuarioId || 1),
     });
+  }
+});
+
+routes.post('/livros/:id/capa', authMiddleware, upload.single('capa'), async (req, res) => {
+  try {
+    const livroId = Number(req.params.id);
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'Arquivo de capa não enviado.' });
+    }
+
+    const livro = await livroDAO.buscarPorId(livroId);
+    if (!livro) {
+      return res.status(404).json({ message: 'Livro não encontrado.' });
+    }
+
+    if (req.usuarioLogado.id !== livro.usuarioId) {
+      return res.status(403).json({ message: 'Apenas o dono do livro pode enviar a capa.' });
+    }
+
+    await ServicoMinio.enviarCapaLivro(livroId, req.file);
+    const urlCapa = await ServicoMinio.obterUrlCapaPresignada(livroId);
+
+    res.status(201).json({ message: 'Capa enviada com sucesso.', urlCapa });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao enviar capa.', error: error.message });
+  }
+});
+
+routes.get('/livros/:id/capa', async (req, res) => {
+  try {
+    const livroId = Number(req.params.id);
+    const urlCapa = await ServicoMinio.obterUrlCapaPresignada(livroId);
+    res.status(200).json({ urlCapa });
+  } catch (error) {
+    res.status(404).json({ message: 'Capa do livro não encontrada.' });
   }
 });
 
