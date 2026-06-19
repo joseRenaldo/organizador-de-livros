@@ -30,13 +30,32 @@ Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados**, **POO**
 
 - **Node.js**
 - **TypeScript** – tipagem estática e classes com encapsulamento
-- **JavaScrip**
+- **JavaScript**
 - **JsonWebToken**
-- **bcrypt** - criptografia da senha em estilo hash, para reduzir a vulnerabilidade do 'site'
-- **express** - criação do servidor https
+- **bcrypt** – hash de senha para reduzir vulnerabilidades
+- **express** – criação do servidor HTTP
 - **Prisma ORM** – migrations e acesso ao banco de dados
 - **SQLite**
 - **ES Modules** – organização modular do código
+- **MinIO** – armazenamento de capas de livros em objeto, com upload e URL pré-assinada
+
+## Configuração do MinIO
+
+Adicione as variáveis de ambiente no arquivo `.env`:
+
+```env
+MINIO_ENDPOINT=localhost
+MINIO_PORT=9000
+MINIO_USE_SSL=false
+MINIO_ACCESS_KEY=minioadmin
+MINIO_SECRET_KEY=minioadmin
+MINIO_BUCKET=livros
+```
+
+Para enviar e obter capas de livros, use as rotas:
+
+- `POST /livros/:id/capa` (campo `capa` em multipart/form-data)
+- `GET /livros/:id/capa`
 
 ## Estrutura da pasta projeto
 ```
@@ -44,10 +63,10 @@ ________________________________________________________________________________
 projeto/
 |--- src/
 | |---app/
-| |      |--- controller/
-| |      |          |--- AuthController.js #rota de login e criptografia da senha via hash, cria um temporizador para a validação do token 
+| |      |--- controllers/
+| |      |          |--- AuthController.js # rota de login e criptografia da senha via hash, cria o token JWT
 | |      |          |--- LivroController.js # possibilita a criação das rotas de livro
-| |      |          |--- UsuarioController.js #possibilita a criação das rotas de usuario
+| |      |          |--- UsuarioController.js # possibilita a criação das rotas de usuário
 | |      |
 | |      |--- middlewares
 | |      |          |---authMiddleware.js #verifica a se são a mesma senha, verifica a header e re-injeta os dados do usuario na requisição, aprimorando a segurança
